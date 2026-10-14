@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -81,13 +81,13 @@ interface IDrinkable
 //  Базовый класс Drink (разные уровни доступа)
 class Drink
 {
-    // --- константы и поля только для чтения ---
+    // константы и поля только для чтения
     public const string CafeName = "Чайная";
     protected const double SipVolume = 50;          // protected: доступно наследникам
     private static int nextId = 1;                  // private: счётчик
     public readonly int Id;                         // readonly: назначается один раз
 
-    // --- приватное поле + публичные свойства ---
+    // приватное поле + публичные свойства
     private string type = "";
 
     public Volume Volume { get; set; }
@@ -168,7 +168,7 @@ class Tea : Drink, IDrinkable
 
     public bool IsBrewed { get; private set; }
 
-    // --- конструкторы ---
+    // конструкторы
     public Tea(double volume, string kind, int quantity) : base(volume, "Чай")
     {
         TeaKind = kind;
@@ -183,7 +183,7 @@ class Tea : Drink, IDrinkable
         IsBrewed = other.IsBrewed;
     }
 
-    // --- Метод 1: заварить ---
+    // Метод заварить чай
     public bool Brew()
     {
         if (IsBrewed)
@@ -201,7 +201,7 @@ class Tea : Drink, IDrinkable
         return true;
     }
 
-    // --- Метод 2: выпить глоток (50 мл) или допить остаток ---
+    // Метод выпить глоток (50 мл) или допить остаток 
     public bool DrinkUp()
     {
         bool ok = TryDrink(IsBrewed, $"Чай {TeaKind} не заварен. Сначала заварите его.", $"Чай {TeaKind}");
@@ -209,11 +209,11 @@ class Tea : Drink, IDrinkable
         return ok;
     }
 
-    // --- Метод 3: описание ---
+    // Метод описание чая
     public string Describe() =>
         $"Чай {TeaKind}, объём {Volume}, пакетиков: {Quantity}, {(IsBrewed ? "заварен" : "не заварен")}";
 
-    // --- Перегрузка арифметической операции (+ ; работает и как +=) ---
+    // Перегрузка арифметической операции (+ работает как +=)
     public static Tea operator +(Tea a, Tea b)
     {
         bool sameKind = string.Equals(a.TeaKind, b.TeaKind, StringComparison.CurrentCultureIgnoreCase);
@@ -224,7 +224,7 @@ class Tea : Drink, IDrinkable
         return result;
     }
 
-    // --- «Перегрузка присваивания» ---
+    // Перегрузка присваивания
     public void Assign(Tea other)
     {
         if (ReferenceEquals(this, other)) return;
@@ -274,7 +274,7 @@ class Coffee : Drink, IDrinkable
         WithMilk = withMilk;
     }
 
-    // --- Метод 1: сварить ---
+    // Метод сварить кофе
     public bool Brew()
     {
         if (IsBrewed)
@@ -287,7 +287,7 @@ class Coffee : Drink, IDrinkable
         return true;
     }
 
-    // --- Метод 2: выпить глоток (50 мл) или допить остаток ---
+    // Метод выпить глоток (50 мл) или допить остаток
     public bool DrinkUp()
     {
         bool ok = TryDrink(IsBrewed, $"Кофе {CoffeeKind} не сварен. Сначала сварите его.", $"Кофе {CoffeeKind}");
@@ -295,7 +295,7 @@ class Coffee : Drink, IDrinkable
         return ok;
     }
 
-    // --- Метод 3: копирование параметров ---
+    // Метод копирование параметров
     public void Assign(Coffee other)
     {
         if (ReferenceEquals(this, other)) return;
